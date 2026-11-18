@@ -36,3 +36,10 @@ android {
 '''
         app.write_text(t)
 print('gradle patched')
+
+# Some plugins (e.g. floating) compile Java as 11 and Kotlin as 1.8; don't fail the build over that.
+gp = a / 'gradle.properties'
+txt = gp.read_text() if gp.exists() else ''
+if 'kotlin.jvm.target.validation.mode' not in txt:
+    gp.write_text(txt.rstrip('\n') + '\nkotlin.jvm.target.validation.mode=warning\n')
+    print('gradle.properties patched')
