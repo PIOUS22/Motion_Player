@@ -7,6 +7,7 @@ import 'package:screen_brightness/screen_brightness.dart';
 import 'package:volume_controller/volume_controller.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import '../../core/theme.dart';
+import '../remote/firebase_boot.dart';
 import '../equalizer/equalizer_screen.dart';
 import 'player_controller.dart';
 
@@ -33,6 +34,7 @@ class _PlayerScreenState extends State<PlayerScreen> with WidgetsBindingObserver
     floating.pipStatus$.listen((s) => inPip = s == PiPStatus.enabled);
     WakelockPlus.enable();
     c.open(widget.path, widget.title);
+    track('play_media', {'ext': widget.path.split('.').last.toLowerCase()});
     c.player.stream.position.listen(c.enforceLoop);
     ScreenBrightness().current.then((v) => brightness = v);
     VolumeController().getVolume().then((v) => volume = v);

@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme.dart';
 import '../player/player_screen.dart';
+import '../ads/ad_banner.dart';
+import '../remote/announcement_banner.dart';
+import '../update/update_banner.dart';
+import '../update/update_service.dart';
 import '../vault/vault_screen.dart';
 import 'library_repository.dart';
 
@@ -22,6 +26,13 @@ class HomeShell extends ConsumerStatefulWidget {
 
 class _HomeShellState extends ConsumerState<HomeShell> {
   int tab = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    updateService.check();
+  }
+
   @override
   Widget build(BuildContext context) {
     final pages = [const _VideosTab(), const _MusicTab(), const _FoldersTab(), const VaultScreen()];
@@ -40,8 +51,8 @@ class _HomeShellState extends ConsumerState<HomeShell> {
           ),
         ],
       ),
-      body: pages[tab],
-      bottomNavigationBar: NavigationBar(
+      body: Column(children: [const AnnouncementBanner(), const UpdateBanner(), Expanded(child: pages[tab])]),
+      bottomNavigationBar: Column(mainAxisSize: MainAxisSize.min, children: [const AdBanner(), NavigationBar(
         selectedIndex: tab,
         onDestinationSelected: (i) => setState(() => tab = i),
         destinations: const [
@@ -50,7 +61,7 @@ class _HomeShellState extends ConsumerState<HomeShell> {
           NavigationDestination(icon: Icon(Icons.folder_outlined), label: 'Folders'),
           NavigationDestination(icon: Icon(Icons.lock_outline), label: 'Private'),
         ],
-      ),
+      )]),
     );
   }
 }

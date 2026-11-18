@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:media_kit/media_kit.dart';
 import '../../core/playback_handler.dart';
 import '../../core/theme.dart';
+import '../remote/firebase_boot.dart';
 
 /// 5-band EQ + bass boost via mpv's ffmpeg audio filters (works for audio and video).
 class EqService {
@@ -31,7 +32,7 @@ class _EqualizerScreenState extends State<EqualizerScreen> {
   List<double> gains = List.filled(5, 0);
   double bass = 0;
 
-  void _update() { setState(() {}); EqService.apply(widget.player, gains, bass); }
+  void _update() { track('use_equalizer'); setState(() {}); EqService.apply(widget.player, gains, bass); }
 
   @override
   Widget build(BuildContext context) => Scaffold(
