@@ -11,7 +11,6 @@ dependencies:
   just_audio_background: ^0.0.1-beta.13
   photo_manager: ^3.5.0
   permission_handler: ^11.3.1
-  floating: ^2.0.0
   local_auth: ^2.3.0
   path_provider: ^2.1.4
   file_picker: ^8.1.2
