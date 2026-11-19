@@ -17,8 +17,6 @@ jobs:
           cp android/app/src/main/AndroidManifest.xml /tmp/m.xml
           flutter create . --org com.motionplayer --project-name motion_player --platforms android
           cp /tmp/m.xml android/app/src/main/AndroidManifest.xml
-          mkdir -p android/app/src/main/res/xml
-          printf '<?xml version="1.0" encoding="utf-8"?><paths><external-path name="e" path="."/><external-files-path name="f" path="."/></paths>' > android/app/src/main/res/xml/provider_paths.xml
           sed -i -E 's/minSdk(Version)? *=? *flutter\.minSdkVersion/minSdk = 24/' android/app/build.gradle.kts 2>/dev/null || true
           sed -i -E 's/minSdkVersion +flutter\.minSdkVersion/minSdkVersion 24/' android/app/build.gradle 2>/dev/null || true
       # Force old plugins (e.g. screen_brightness_android) to compile against a newer SDK
@@ -45,6 +43,10 @@ jobs:
           GRV
             cat "$F"; } > /tmp/b.gradle && mv /tmp/b.gradle "$F"
           fi
+      - run: |
+          D=android/app/src/main/kotlin/com/motionplayer/motion_player
+          mkdir -p $D && cp native/MainActivity.kt $D/MainActivity.kt
+          find android/app/src/main -name MainActivity.* -not -path "$D/*" -delete
       - run: flutter pub get
       - run: flutter build apk --release
       - uses: softprops/action-gh-release@v2
