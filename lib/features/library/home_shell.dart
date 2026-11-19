@@ -78,7 +78,7 @@ class _Thumb extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: FutureBuilder<Uint8List?>(
-                  future: item.asset.thumbnailDataWithSize(const ThumbnailSize(400, 300)),
+                  future: item.asset.thumbnailDataWithSize(ThumbnailSize(400, 300)),
                   builder: (_, s) => s.data == null ? Container(color: AppColors.surface) : Image.memory(s.data!, fit: BoxFit.cover),
                 ),
               ),
