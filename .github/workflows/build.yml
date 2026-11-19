@@ -48,6 +48,9 @@ jobs:
           mkdir -p $D && cp native/MainActivity.kt $D/MainActivity.kt
           find android/app/src/main -name MainActivity.* -not -path "$D/*" -delete
       - run: flutter pub get
+      - name: Analyze (shows the real Dart errors)
+        continue-on-error: true
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings
       - run: flutter build apk --release
       - uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
