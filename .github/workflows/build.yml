@@ -27,7 +27,7 @@ jobs:
           subprojects {
               afterEvaluate {
                   val ext = extensions.findByName("android")
-                  if (ext is com.android.build.gradle.BaseExtension) { ext.compileSdkVersion(35) }
+                  if (ext is com.android.build.gradle.BaseExtension) { ext.compileSdkVersion(36) }
               }
           }
           KTS
@@ -37,7 +37,7 @@ jobs:
             { cat <<'GRV'
           subprojects {
               afterEvaluate { p ->
-                  if (p.hasProperty('android')) { p.android.compileSdkVersion 35 }
+                  if (p.hasProperty('android')) { p.android.compileSdkVersion 36 }
               }
           }
           GRV
