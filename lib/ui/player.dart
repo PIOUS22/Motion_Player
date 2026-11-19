@@ -52,7 +52,7 @@ class _P extends State<PlayerPage> {
       behavior: HitTestBehavior.opaque,
       onTap: () => setState(() => ui = !ui),
       onDoubleTapDown: (d) { final x = d.localPosition.dx;
-        x < w / 3 ? _skip(-10) : x > w * 2 / 3 ? _skip(10) : (v.value.isPlaying ? v.pause() : v.play()); },
+        if (x < w / 3) { _skip(-10); } else if (x > w * 2 / 3) { _skip(10); } else if (v.value.isPlaying) { v.pause(); } else { v.play(); } },
       onScaleUpdate: (d) {
         if (locked) return;
         if (d.pointerCount > 1) { setState(() => zoom = (zoom * d.scale).clamp(1.0, 4.0)); return; }
@@ -84,7 +84,7 @@ class _P extends State<PlayerPage> {
       Expanded(child: Text(widget.file.uri.pathSegments.last, overflow: TextOverflow.ellipsis)),
       ActionChip(label: Text('${speed}x'), backgroundColor: cyan.withOpacity(.25), onPressed: () {
         speed = speeds[(speeds.indexOf(speed) + 1) % speeds.length]; v.setPlaybackSpeed(speed); }),
-      IconButton(icon: Icon(subs ? Icons.subtitles : Icons.subtitles_off), onPressed: () => setState(() => subs = !subs), onLongPress: _loadSubs),
+      GestureDetector(onLongPress: _loadSubs, child: IconButton(icon: Icon(subs ? Icons.subtitles : Icons.subtitles_off), onPressed: () => setState(() => subs = !subs))),
       IconButton(icon: const Icon(Icons.picture_in_picture_alt), onPressed: () => Sys.enterPip()),
     ]),
     const Spacer(),

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:photo_manager/photo_manager.dart';
@@ -62,6 +63,14 @@ class _Search extends SearchDelegate {
   @override Widget buildSuggestions(BuildContext c) => buildResults(c);
 }
 
+class _Img extends StatelessWidget {
+  final AssetEntity a; const _Img(this.a);
+  @override
+  Widget build(BuildContext c) => FutureBuilder<Uint8List?>(
+    future: a.thumbnailDataWithSize(const ThumbnailSize.square(400)),
+    builder: (_, s) => s.data == null ? Container(color: card) : Image.memory(s.data!, fit: BoxFit.cover));
+}
+
 class Thumb extends StatelessWidget {
   final AssetEntity a; const Thumb(this.a, {super.key});
   @override
@@ -71,7 +80,7 @@ class Thumb extends StatelessWidget {
       leading: const Icon(Icons.lock), title: const Text('Move to Private'),
       onTap: () { c.read<LibraryState>().hide(a); Navigator.pop(c); })),
     child: ClipRRect(borderRadius: BorderRadius.circular(14), child: Stack(fit: StackFit.expand, children: [
-      AssetEntityImage(a, isOriginal: false, thumbnailSize: const ThumbnailSize.square(400), fit: BoxFit.cover),
+      _Img(a),
       Positioned(right: 6, bottom: 6, child: Container(padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
         decoration: BoxDecoration(color: Colors.black87, borderRadius: BorderRadius.circular(6)),
         child: Text(fmt(a.videoDuration), style: const TextStyle(fontSize: 11, color: orange)))),
@@ -96,7 +105,7 @@ class VideosPage extends StatelessWidget {
           body: GridView.builder(padding: const EdgeInsets.all(12), gridDelegate: g, itemCount: f[i].value.length, itemBuilder: (_, j) => Thumb(f[i].value[j]))))),
         child: Container(decoration: BoxDecoration(color: card, borderRadius: BorderRadius.circular(14)),
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            const Icon(Icons.folder, size: 40, color: cyan), Text(f[i].key, overflow: TextOverflow.ellipsis), Text('${f[i].value.length} videos', style: const TextStyle(color: Colors.white54, fontSize: 12))])));
+            const Icon(Icons.folder, size: 40, color: cyan), Text(f[i].key, overflow: TextOverflow.ellipsis), Text('${f[i].value.length} videos', style: const TextStyle(color: Colors.white54, fontSize: 12))]))));
   }
 }
 

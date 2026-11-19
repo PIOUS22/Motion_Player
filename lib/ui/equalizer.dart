@@ -24,7 +24,7 @@ class _A extends State<AudioPage> {
       const Icon(Icons.album, size: 140, color: orange),
       Text(widget.file.uri.pathSegments.last, textAlign: TextAlign.center, style: const TextStyle(fontSize: 18)),
       StreamBuilder<Duration>(stream: audioPlayer.positionStream, builder: (_, s) => Slider(
-        value: (s.data ?? Duration.zero).inMilliseconds.toDouble().clamp(0, (audioPlayer.duration ?? const Duration(seconds: 1)).inMilliseconds.toDouble()),
+        value: (s.data ?? Duration.zero).inMilliseconds.toDouble().clamp(0.0, (audioPlayer.duration ?? const Duration(seconds: 1)).inMilliseconds.toDouble()).toDouble(),
         max: (audioPlayer.duration ?? const Duration(seconds: 1)).inMilliseconds.toDouble(),
         onChanged: (v) => audioPlayer.seek(Duration(milliseconds: v.toInt())))),
       StreamBuilder<bool>(stream: audioPlayer.playingStream, builder: (_, s) => IconButton(iconSize: 64, color: cyan,
@@ -36,7 +36,7 @@ class _A extends State<AudioPage> {
 
 class EqualizerPanel extends StatefulWidget { const EqualizerPanel({super.key}); @override State<EqualizerPanel> createState() => _E(); }
 class _E extends State<EqualizerPanel> {
-  static const presets = {'Flat': [0.0, 0, 0, 0, 0], 'Bass': [.8, .5, 0, 0, 0], 'Rock': [.5, .2, -.1, .3, .5], 'Pop': [-.1, .3, .5, .2, -.1], 'Vocal': [-.3, 0, .5, .4, 0]};
+  static const Map<String, List<double>> presets = {'Flat': [0.0, 0.0, 0.0, 0.0, 0.0], 'Bass': [.8, .5, 0.0, 0.0, 0.0], 'Rock': [.5, .2, -.1, .3, .5], 'Pop': [-.1, .3, .5, .2, -.1], 'Vocal': [-.3, 0.0, .5, .4, 0.0]};
   AndroidEqualizerParameters? p; bool bgPlay = true; double bass = 0;
 
   @override
@@ -58,7 +58,7 @@ class _E extends State<EqualizerPanel> {
       Wrap(spacing: 8, children: presets.entries.map((e) => ActionChip(label: Text(e.key), onPressed: () => _preset(e.value))).toList()),
       SizedBox(height: 180, child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: p!.bands.map((b) => Column(children: [
         Expanded(child: RotatedBox(quarterTurns: 3, child: Slider(min: p!.minDecibels, max: p!.maxDecibels, value: b.gain, onChanged: (v) => setState(() => b.setGain(v))))),
-        Text('${b.centerFrequency ~/ 1000 > 0 ? '${(b.centerFrequency / 1000).toStringAsFixed(0)}k' : b.centerFrequency.toInt()}', style: const TextStyle(fontSize: 11)),
+        Text(b.centerFrequency >= 1000 ? '${(b.centerFrequency / 1000).round()}k' : '${b.centerFrequency.round()}', style: const TextStyle(fontSize: 11)),
       ])).toList())),
       ListTile(title: const Text('Bass boost'), subtitle: Slider(activeColor: orange, value: bass, onChanged: (v) {
         setState(() => bass = v);

@@ -60,12 +60,13 @@ class UpdateBanner extends StatelessWidget {
   @override
   Widget build(BuildContext c) {
     if (u.stage == UpdateStage.none) return const SizedBox.shrink();
-    final (String text, String? label, VoidCallback? act) = switch (u.stage) {
-      UpdateStage.available => ('Version ${u.version} is available', 'Download now', u.download),
-      UpdateStage.downloading => ('Downloading update… ${(u.progress * 100).toInt()}%', null, null),
-      UpdateStage.ready => ('Update downloaded', 'Install now', u.install),
-      _ => ('Update failed', 'Retry', u.download),
-    };
+    String text; String? label; VoidCallback? act;
+    switch (u.stage) {
+      case UpdateStage.available: text = 'Version ${u.version} is available'; label = 'Download now'; act = u.download; break;
+      case UpdateStage.downloading: text = 'Downloading update… ${(u.progress * 100).toInt()}%'; break;
+      case UpdateStage.ready: text = 'Update downloaded'; label = 'Install now'; act = u.install; break;
+      default: text = 'Update failed'; label = 'Retry'; act = u.download;
+    }
     return Material(
       color: const Color(0xFF1E1E1E),
       child: Padding(padding: const EdgeInsets.all(12), child: Column(children: [
