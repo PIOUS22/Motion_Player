@@ -36,8 +36,8 @@ class _VaultScreenState extends State<VaultScreen> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          final r = await FilePicker.platform.pickFiles(type: FileType.video);
-          if (r?.files.single.path != null) { await v.hide(r!.files.single.path!); _refresh(); }
+          final f = await FilePicker.pickFile(type: FileType.video);
+          if (f?.path != null) { await v.hide(f!.path!); _refresh(); }
         },
         child: const Icon(Icons.add),
       ),
