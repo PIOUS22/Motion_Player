@@ -1,7 +1,10 @@
 package com.motionplayer.motion_player
 
 import android.content.Context
+import android.app.PictureInPictureParams
 import android.media.AudioManager
+import android.os.Build
+import android.util.Rational
 import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
@@ -27,6 +30,13 @@ class MainActivity : FlutterFragmentActivity() {
                     "getVolume" -> res.success(am.getStreamVolume(AudioManager.STREAM_MUSIC).toDouble() / max)
                     "setVolume" -> {
                         am.setStreamVolume(AudioManager.STREAM_MUSIC, ((call.arguments as Double) * max).toInt(), 0)
+                        res.success(null)
+                    }
+                    "enterPip" -> {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            enterPictureInPictureMode(
+                                PictureInPictureParams.Builder().setAspectRatio(Rational(16, 9)).build())
+                        }
                         res.success(null)
                     }
                     else -> res.notImplemented()
