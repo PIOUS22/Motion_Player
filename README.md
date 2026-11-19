@@ -1,6 +1,6 @@
 # Motion Player
-1. `flutter create --platforms=android .` inside this folder (keeps lib/ and pubspec.yaml)
-2. Replace android/app/src/main/AndroidManifest.xml with the provided one (match your MainActivity package)
-3. In android/app/build.gradle(.kts): minSdk 24, compileSdk 34+
-4. `flutter pub get && flutter run`
-Structure: core/ (theme) | features/library | player | equalizer | vault. State: Riverpod.
+1. Edit `githubRepo` in `lib/services/updater.dart`.
+2. Push to GitHub. Actions builds the APK (Actions tab -> artifact).
+3. For updates: bump `version:` in pubspec.yaml, push tag `v1.0.1` -> release with APK -> installed apps show "Download now" / "Install now".
+Notes: MainActivity must extend FlutterFragmentActivity for biometrics (`flutter create` default is FlutterActivity; change it in android/app/src/main/kotlin/.../MainActivity.kt).
+Roadmap: .ass subtitles, subtitle delay/fonts, embedded audio-track switching, encrypted vault, resume position.
