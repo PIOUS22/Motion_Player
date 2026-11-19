@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:floating/floating.dart';
 import 'package:video_player/video_player.dart';
 import '../core/system.dart';
 import '../core/theme.dart';
@@ -86,7 +85,7 @@ class _P extends State<PlayerPage> {
       ActionChip(label: Text('${speed}x'), backgroundColor: cyan.withOpacity(.25), onPressed: () {
         speed = speeds[(speeds.indexOf(speed) + 1) % speeds.length]; v.setPlaybackSpeed(speed); }),
       IconButton(icon: Icon(subs ? Icons.subtitles : Icons.subtitles_off), onPressed: () => setState(() => subs = !subs), onLongPress: _loadSubs),
-      IconButton(icon: const Icon(Icons.picture_in_picture_alt), onPressed: () => Floating().enable(const ImmediatePiP())),
+      IconButton(icon: const Icon(Icons.picture_in_picture_alt), onPressed: () => Sys.enterPip()),
     ]),
     const Spacer(),
     Row(mainAxisAlignment: MainAxisAlignment.center, children: [

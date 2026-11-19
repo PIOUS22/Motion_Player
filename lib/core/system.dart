@@ -6,4 +6,5 @@ class Sys {
   static Future<void> setBrightness(double v) => _c.invokeMethod('setBrightness', v);
   static Future<double> volume() async => (await _c.invokeMethod<double>('getVolume')) ?? .5;
   static Future<void> setVolume(double v) => _c.invokeMethod('setVolume', v);
+  static Future<void> enterPip() => _c.invokeMethod('enterPip');
 }
