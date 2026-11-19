@@ -31,13 +31,14 @@ class _PlayerScreenState extends State<PlayerScreen> with WidgetsBindingObserver
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    floating.pipStatus$.listen((s) => inPip = s == PiPStatus.enabled);
+    floating.pipStatusStream.listen((s) => inPip = s == PiPStatus.enabled);
     WakelockPlus.enable();
     c.open(widget.path, widget.title);
     track('play_media', {'ext': widget.path.split('.').last.toLowerCase()});
     c.player.stream.position.listen(c.enforceLoop);
     ScreenBrightness().current.then((v) => brightness = v);
-    VolumeController().getVolume().then((v) => volume = v);
+    VolumeController.instance.showSystemUI = false;
+    VolumeController.instance.getVolume().then((v) => volume = v);
   }
 
   @override
@@ -76,7 +77,7 @@ class _PlayerScreenState extends State<PlayerScreen> with WidgetsBindingObserver
       _flash('Brightness ${(brightness * 100).round()}%');
     } else {
       volume = (volume + delta).clamp(0.0, 1.0);
-      VolumeController().setVolume(volume, showSystemUI: false);
+      VolumeController.instance.setVolume(volume);
       _flash('Volume ${(volume * 100).round()}%');
     }
   }
