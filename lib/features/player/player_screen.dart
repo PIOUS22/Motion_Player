@@ -127,8 +127,8 @@ class _PlayerScreenState extends State<PlayerScreen> with WidgetsBindingObserver
               Expanded(child: Text(widget.title, maxLines: 1, overflow: TextOverflow.ellipsis)),
               ActionChip(label: Text('${speed}x'), onPressed: _speedSheet),
               IconButton(icon: const Icon(Icons.subtitles), onPressed: () async {
-                final r = await FilePicker.platform.pickFiles();
-                if (r?.files.single.path != null) c.loadSubtitle(r!.files.single.path!);
+                final f = await FilePicker.pickFile();
+                if (f?.path != null) c.loadSubtitle(f!.path!);
               }),
               ValueListenableBuilder<bool>(
                 valueListenable: audioHandler.backgroundPlay,
