@@ -24,8 +24,6 @@
       <intent-filter><action android:name="android.media.browse.MediaBrowserService"/></intent-filter></service>
     <receiver android:name="com.ryanheise.audioservice.MediaButtonReceiver" android:exported="true">
       <intent-filter><action android:name="android.intent.action.MEDIA_BUTTON"/></intent-filter></receiver>
-    <provider android:name="androidx.core.content.FileProvider" android:authorities="${applicationId}.fileProvider" android:exported="false" android:grantUriPermissions="true">
-      <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/provider_paths"/></provider>
     <meta-data android:name="flutterEmbedding" android:value="2"/>
   </application>
 </manifest>
